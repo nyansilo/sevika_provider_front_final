@@ -1,0 +1,133 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- ====================================================================== -->
+    <!-- 1. GENERAL & LOCATION PERMISSIONS                                      -->
+    <!-- ====================================================================== -->
+    <!-- Required for making API calls, WebSockets, and VoIP network data -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- 📍 Required for precise GPS location (Google Maps, Mapbox tracking, and Chat Location Sharing) -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 📍 Required for approximate network-based location (Fallback for chat sharing) -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- ====================================================================== -->
+    <!-- 📞 2. CALL & RTC (AGORA) PERMISSIONS                                   -->
+    <!-- ====================================================================== -->
+    <!-- Required to capture user's voice during an audio/video call -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- Required to capture the user's face during a video call -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- Required to switch audio output dynamically between Earpiece and Loudspeaker -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
+    <!-- Required by RTC engines to detect network quality/drops and adjust video bitrate -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <!-- Required to detect incoming cellular calls so the app can pause the VoIP call -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <!-- Required (Android 12+) to route call audio to wireless headphones/AirPods -->
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+
+
+    <!-- ====================================================================== -->
+    <!-- 3. PACKAGE VISIBILITY QUERIES (Android 11+)                            -->
+    <!-- ====================================================================== -->
+    <queries>
+        <!-- 🔵 Allows the app to interact with the native Facebook app (if installed) -->
+        <package android:name="com.facebook.katana" />
+
+        <!-- 📞 Allows the app to open the phone's native dialer (url_launcher: tel://) -->
+        <intent>
+            <action android:name="android.intent.action.DIAL" />
+        </intent>
+
+        <!-- 🖼️ Allows the app to open the device gallery to pick images -->
+        <intent>
+            <action android:name="android.intent.action.GET_CONTENT" />
+            <data android:mimeType="image/*" />
+        </intent>
+
+        <!-- 📸 Allows the app to launch the native camera app to take photos -->
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+
+        <!-- 🚀 Allows url_launcher to open standard web links (https://play.google.com/...) -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" />
+        </intent>
+
+        <!-- 🚀 Allows url_launcher to open deep links directly in the Play Store app (market://) -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="market" />
+        </intent>
+
+        <!-- Required by the Flutter engine (io.flutter.plugin.text.ProcessTextPlugin) -->
+        <intent>
+            <action android:name="android.intent.action.PROCESS_TEXT"/>
+            <data android:mimeType="text/plain"/>
+        </intent>
+    </queries>
+
+    <!-- ====================================================================== -->
+    <!-- 4. APPLICATION CONFIGURATION                                           -->
+    <!-- ====================================================================== -->
+    <application
+        android:label="sevika"
+        android:name="${applicationName}"
+        android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true"> 
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:taskAffinity=""
+            android:theme="@style/LaunchTheme"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:hardwareAccelerated="true"
+            android:windowSoftInputMode="adjustResize">
+
+            <!-- Specifies an Android theme to apply to this Activity as soon as
+                 the Android process has started. This theme is visible to the user
+                 while the Flutter UI initializes. -->
+            <meta-data
+              android:name="io.flutter.embedding.android.NormalTheme"
+              android:resource="@style/NormalTheme"
+              />
+
+            <!-- The Intent Filter that tells Android this is the main entry point (App Icon) -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <!-- Used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" /> 
+
+        <!-- Facebook SDK Authentication Configurations -->
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
+
+        <!-- ====================================================================== -->
+        <!-- 🎯 5. GOOGLE MAPS API METADATA                                         -->
+        <!-- Receives the secure key dynamically from build.gradle / config.json    -->
+        <!-- ====================================================================== -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${MAPS_API_KEY_ANDROID}" />
+
+    </application>
+</manifest>

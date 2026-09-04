@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "name": "Flutter (lib/features/profile/domain/usecases/params/update_customer_profile_params.dart)",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/features/profile/domain/usecases/params/update_customer_profile_params.dart"
+        }
+    ]
+}

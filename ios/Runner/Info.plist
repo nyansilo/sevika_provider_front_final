@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- ====================================================================== -->
+    <!-- 1. APP IDENTITY & CONFIGURATION                                        -->
+    <!-- ====================================================================== -->
+    <key>CFBundleDevelopmentRegion</key>
+    <string>$(DEVELOPMENT_LANGUAGE)</string>
+    <key>CFBundleDisplayName</key>
+    <string>Sevika</string>
+    <key>CFBundleExecutable</key>
+    <string>$(EXECUTABLE_NAME)</string>
+    <key>CFBundleIdentifier</key>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>CFBundleName</key>
+    <string>sevika</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleShortVersionString</key>
+    <string>$(FLUTTER_BUILD_NAME)</string>
+    <key>CFBundleSignature</key>
+    <string>????</string>
+    <key>CFBundleVersion</key>
+    <string>$(FLUTTER_BUILD_NUMBER)</string>
+    <key>LSRequiresIPhoneOS</key>
+    <true/>
+
+    <!-- ====================================================================== -->
+    <!-- 2. GOOGLE & FACEBOOK AUTHENTICATION SETUP                              -->
+    <!-- ====================================================================== -->
+    <key>GIDClientID</key>
+    <string>$(GOOGLE_CLIENT_ID)</string>
+    <key>FacebookAppID</key>
+    <string>$(FACEBOOK_APP_ID)</string>
+    <key>FacebookClientToken</key>
+    <string>$(FACEBOOK_CLIENT_TOKEN)</string>
+    <key>FacebookDisplayName</key>
+    <string>$(FACEBOOK_DISPLAY_NAME)</string>
+
+    <!-- Defines the custom URL schemes the app can respond to (for OAuth callbacks) -->
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <!-- Google Sign-In redirect scheme -->
+                <string>$(GOOGLE_REVERSED_CLIENT_ID)</string>
+                <!-- Facebook Login redirect scheme -->
+                <string>$(FACEBOOK_URL_SCHEME)</string>
+            </array>
+        </dict>
+    </array>
+
+    <!-- ====================================================================== -->
+    <!-- 3. APP QUERIES (URL LAUNCHER & THIRD-PARTY APPS)                       -->
+    <!-- ====================================================================== -->
+    <!-- Defines which external apps/URLs this app is allowed to check for and launch -->
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <!-- Allows opening the phone's native dialer -->
+        <string>tel</string>
+
+        <!-- Facebook SDK Queries -->
+        <string>fbapi</string>
+        <string>$(FACEBOOK_API)</string>
+        <string>fbauth2</string>
+        <string>$(FACEBOOK_AUTH)</string>
+
+        <!-- 🚀 ADDED: Allows url_launcher to open standard web links (https://apps.apple.com/...) -->
+        <string>https</string>
+
+        <!-- 🚀 ADDED: Allows url_launcher to directly open the native Apple App Store (itms-apps://) -->
+        <string>itms-apps</string>
+    </array>
+
+    <!-- ====================================================================== -->
+    <!-- 4. HARDWARE & PRIVACY PERMISSIONS                                      -->
+    <!-- ====================================================================== -->
+    <!-- 🖼️ Photos -->
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>We need access to your photo library so you can pick and upload a profile picture for your account.</string>
+
+    <!-- 📸 Camera: UPDATED to include Video Calls alongside Avatar uploads -->
+    <key>NSCameraUsageDescription</key>
+    <string>We need access to your camera so you can snap a new avatar profile picture and participate in face-to-face video consultations.</string>
+
+    <!-- 🎤 Microphone: UPDATED to include VoIP Audio/Video calls -->
+    <key>NSMicrophoneUsageDescription</key>
+    <string>We require microphone permission to allow you to speak during internet voice and video calls, and to capture video clips.</string>
+
+    <!-- 📍 LOCATION PRIVACY STRINGS (Used by MapBox, Google Maps, and Chat Location Sharing) -->
+    <!-- 🎯 UPDATED: Added context to explain the new Chat Location Share feature -->
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>We need your location so you can easily share your exact coordinates with service providers in the chat and dispatch emergency responders.</string>
+
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>This app requires access to your location to track emergency responders and service providers in real-time.</string>
+
+    <!-- 📞 BACKGROUND MODES: ADDED for Internet Calling. 
+         Without this, calls will drop the exact second the user minimizes the app to check a message. -->
+    <key>UIBackgroundModes</key>
+    <array>
+        <!-- Allows audio from the active call to continue playing while the app is in the background -->
+        <string>audio</string>
+        <!-- Identifies the app as a Voice over IP app, giving it higher background priority -->
+        <string>voip</string>
+    </array>
+
+    <!-- ====================================================================== -->
+    <!-- 5. UI, SCENE, & SECURITY CONFIGURATION                                 -->
+    <!-- ====================================================================== -->
+    <!-- Optimizes ProMotion displays (120Hz) on newer iPhones -->
+    <key>CADisableMinimumFrameDurationOnPhone</key>
+    <true/>
+
+    <key>UIApplicationSceneManifest</key>
+    <dict>
+        <key>UIApplicationSupportsMultipleScenes</key>
+        <false/>
+        <key>UISceneConfigurations</key>
+        <dict>
+            <key>UIWindowSceneSessionRoleApplication</key>
+            <array>
+                <dict>
+                    <key>UISceneClassName</key>
+                    <string>UIWindowScene</string>
+                    <key>UISceneConfigurationName</key>
+                    <string>flutter</string>
+                    <key>UISceneDelegateClassName</key>
+                    <string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
+                    <key>UISceneStoryboardFile</key>
+                    <string>Main</string>
+                </dict>
+            </array>
+        </dict>
+    </dict>
+
+    <key>UIApplicationSupportsIndirectInputEvents</key>
+    <true/>
+
+    <!-- Storyboard Definitions -->
+    <key>UILaunchStoryboardName</key>
+    <string>LaunchScreen</string>
+    <key>UIMainStoryboardFile</key>
+    <string>Main</string>
+
+    <!-- Supported Screen Orientations (iPhone) -->
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+        <string>UIInterfaceOrientationLandscapeLeft</string>
+        <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
+
+    <!-- Supported Screen Orientations (iPad) -->
+    <key>UISupportedInterfaceOrientations~ipad</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+        <string>UIInterfaceOrientationPortraitUpsideDown</string>
+        <string>UIInterfaceOrientationLandscapeLeft</string>
+        <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
+
+    <!-- Network Security: Allows HTTP loads (useful for dev/staging environments) -->
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+    </dict>
+
+    <!-- ====================================================================== -->
+    <!-- 🎯 6. GOOGLE MAPS API INJECTION (IOS SPECIFIC)                         -->
+    <!-- ====================================================================== -->
+    <!-- Reads the iOS-restricted Google Maps API Key injected from config.json -->
+    <key>GoogleMapsApiKey</key>
+    <string>$(MAPS_API_KEY_IOS)</string>
+</dict>
+</plist>

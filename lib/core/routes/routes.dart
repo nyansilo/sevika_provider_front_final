@@ -6,6 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 // =============================================================================
 import '../../features/app_config/presentation/screens/force_update_screen.dart';
 import '../../features/earnings/presentation/screens/payout_detail_screen.dart';
+import '../../features/review/presentation/args/provider_reply_args.dart';
+import '../../features/review/presentation/cubits/provider_reviews_cubit.dart';
+import '../../features/review/presentation/screens/provider_feedback_screen.dart';
+import '../../features/review/presentation/screens/provider_review_reply_screen.dart';
 import '../presentation/screens/generic_webview_screen.dart';
 import '../presentation/screens/maintenance_screen.dart';
 import '../presentation/screens/no_internet_screen.dart';
@@ -250,6 +254,25 @@ class Routes {
       return BlocProvider<SinglePayoutCubit>(
         create: (_) => sl<SinglePayoutCubit>(),
         child: PayoutDetailsScreen(payoutId: payoutId),
+      );
+    },
+
+    // =========================================================================
+    // ⭐ REVIEWS & PERFORMANCE
+    // =========================================================================
+    RouteList.providerFeedbackPage: (context) =>
+        BlocProvider<ProviderReviewsCubit>(
+          create: (_) => sl<ProviderReviewsCubit>(),
+          child: const ProviderFeedbackScreen(),
+        ),
+
+    // 🚀 ADDED THIS NEW ROUTE
+    RouteList.providerReviewReplyPage: (context) {
+      final args = setting.arguments as ProviderReplyArgs;
+      return BlocProvider<ProviderReviewsCubit>(
+        create: (_) =>
+            sl<ProviderReviewsCubit>(), // Inject a fresh cubit for the mutation
+        child: ProviderReviewReplyScreen(args: args),
       );
     },
 

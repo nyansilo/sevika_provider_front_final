@@ -86,10 +86,12 @@ class RouteList {
   // REVIEWS, FAVORITES & WAITLIST
   // =========================================================================
   static const String reviewsPage = '/reviews';
+
   static const String feedbackHistoryPage = '/feedback-history';
-  static const String addReviewPage = '/add-review';
   static const String favoriteProviderPage = '/favorite-providers';
   static const String favoriteServicePage = '/favorite-services';
+  static const String providerFeedbackPage = '/provider-feedback';
+  static const String providerReviewReplyPage = '/provider-review-reply';
   static const String waitlistPage = '/waitlist';
 
   // =========================================================================

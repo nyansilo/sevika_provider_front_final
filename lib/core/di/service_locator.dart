@@ -37,6 +37,9 @@ import 'injectors/notification_injector.dart';
 import 'injectors/wallet_injector.dart';
 import 'injectors/earnings_injector.dart';
 
+// ⭐ NEW REVIEW INJECTOR
+import 'injectors/review_injector.dart'; // 🚀 ADDED THIS
+
 final GetIt sl = GetIt.instance;
 
 Future<void> setupServiceLocator() async {
@@ -122,4 +125,5 @@ Future<void> setupServiceLocator() async {
   initMarketplace(sl);
   initWallet(sl);
   initEarnings(sl);
+  initReview(sl);
 }

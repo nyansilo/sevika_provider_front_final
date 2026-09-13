@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/extensions/build_context_extensions.dart';
 // 🎯 Import your provided global widgets
-import '../../../../core/presentation/widgets/sevika_alert_dialog.dart';
-import '../../../../core/presentation/widgets/sevika_button.dart';
+import '../../../../core/global/presentation/widgets/sevika_alert_dialog.dart';
+import '../../../../core/global/presentation/widgets/sevika_button.dart';
 
 class TopUpScreen extends StatefulWidget {
   const TopUpScreen({super.key});

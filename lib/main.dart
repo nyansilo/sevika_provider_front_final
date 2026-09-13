@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/l10n/arb/app_localizations.dart';
-import 'core/presentation/app_global_listener_current.dart';
+import 'core/global/app_global_listener_current.dart';
 import 'core/di/service_locator.dart';
 
-import 'core/presentation/cubits/language_cubit.dart';
-import 'core/presentation/providers/app_bloc_provider.dart';
-import 'core/presentation/screens/not_found_screen.dart';
+import 'core/global/presentation/cubits/language_cubit.dart';
+import 'core/global/providers/app_bloc_provider.dart';
+import 'core/global/presentation/screens/not_found_screen.dart';
 import 'core/routes/route_list.dart';
 import 'core/routes/routes.dart';
 import 'core/routes/transitions.dart';
@@ -18,7 +18,7 @@ import 'package:path_provider/path_provider.dart';
 
 import 'core/navigation/app_keys.dart';
 import 'core/config/app_theme.dart';
-import 'core/presentation/cubits/theme_cubit.dart';
+import 'core/global/presentation/cubits/theme_cubit.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 

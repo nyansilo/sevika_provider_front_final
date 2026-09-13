@@ -1,8 +1,9 @@
 // presentation/widgets/address_card.dart
 import 'package:flutter/material.dart';
+
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/extensions/build_context_extensions.dart'; // 🚀 Swapped Theme.of(context) usages with your context properties
-import '../../../../core/presentation/widgets/app_confirmation_dialog.dart';
+import '../../../../core/global/presentation/widgets/app_confirmation_dialog.dart';
 import '../../domain/entities/customer_address_entity.dart';
 
 class AddressCard extends StatelessWidget {

@@ -184,7 +184,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/extensions/build_context_extensions.dart';
-import '../../../../core/presentation/cubits/language_cubit.dart';
+import '../../../../core/global/presentation/cubits/language_cubit.dart';
 import '../widgets/language/language_selector_tile.dart';
 
 class AppLanguageScreen extends StatelessWidget {

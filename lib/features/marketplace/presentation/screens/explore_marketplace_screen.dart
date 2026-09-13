@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/di/service_locator.dart';
 import '../../../../core/extensions/build_context_extensions.dart';
-import '../../../../core/presentation/widgets/sevika_button.dart';
+import '../../../../core/global/presentation/widgets/sevika_button.dart';
 import '../../domain/entities/open_job_request_entity.dart'; // Ensure this matches your file name
 import '../../domain/usecases/params/place_bid_params.dart';
 import '../cubits/explore_jobs_cubit.dart';

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../../core/extensions/build_context_extensions.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/routes/route_list.dart';
-import '../../../../core/presentation/widgets/brand_logo.dart';
-import '../../../../core/presentation/widgets/sevika_button.dart';
+import '../../../../core/global/presentation/widgets/brand_logo.dart';
+import '../../../../core/global/presentation/widgets/sevika_button.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});

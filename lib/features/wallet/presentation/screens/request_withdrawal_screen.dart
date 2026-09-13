@@ -159,7 +159,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/extensions/build_context_extensions.dart';
-import '../../../../core/presentation/widgets/sevika_button.dart';
+import '../../../../core/global/presentation/widgets/sevika_button.dart';
 import '../../domain/enums/withdrawal_channel.dart';
 import '../../domain/usecases/params/request_withdrawal_params.dart';
 import '../cubits/withdrawal_state.dart';

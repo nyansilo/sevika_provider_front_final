@@ -10,8 +10,8 @@ import '../../../auth/presentation/cubits/auth/auth_cubit.dart';
 import '../../../auth/presentation/cubits/auth/auth_state.dart';
 
 // 🧠 IMPORT SYSTEM CONFIGURATION CUBITS
-import '../../../../core/presentation/cubits/theme_cubit.dart';
-import '../../../../core/presentation/cubits/language_cubit.dart';
+import '../../../../core/global/presentation/cubits/theme_cubit.dart';
+import '../../../../core/global/presentation/cubits/language_cubit.dart';
 
 // 📦 IMPORT EXTRACTED UI COMPONENTS
 import '../../../notification/presentation/cubits/setting/notification_setting_cubit.dart';

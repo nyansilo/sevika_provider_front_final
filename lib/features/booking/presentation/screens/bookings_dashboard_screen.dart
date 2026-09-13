@@ -341,7 +341,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/di/service_locator.dart'; // 🎯 Required for sl() injection
 import '../../../../core/extensions/build_context_extensions.dart';
-import '../../../../core/presentation/widgets/sevika_state_placeholder.dart';
+import '../../../../core/global/presentation/widgets/sevika_state_placeholder.dart';
 import '../../../../core/routes/route_list.dart';
 
 import '../../domain/usecases/params/update_booking_status_params.dart';

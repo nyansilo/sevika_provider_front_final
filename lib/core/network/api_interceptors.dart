@@ -59,6 +59,8 @@ class AuthorizationInterceptor extends Interceptor {
     final tokenManager = sl<AuthTokenManager>();
     final token = await tokenManager.getAccessToken();
 
+    // 🛡️ KYC Note: KYC API endpoints (e.g., /provider/kyc/submit) are intentionally
+    // omitted from the public list below because they strictly require an authenticated Bearer token.
     final bootstrapOrPublicPaths = [
       ApiEndpoints.login,
       ApiEndpoints.socialLogin,

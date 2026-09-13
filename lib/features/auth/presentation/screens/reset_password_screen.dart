@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/extensions/build_context_extensions.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/routes/route_list.dart';
-import '../../../../core/presentation/widgets/brand_logo.dart';
-import '../../../../core/presentation/widgets/app_text_field.dart';
-import '../../../../core/presentation/widgets/sevika_button.dart';
+import '../../../../core/global/presentation/widgets/brand_logo.dart';
+import '../../../../core/global/presentation/widgets/app_text_field.dart';
+import '../../../../core/global/presentation/widgets/sevika_button.dart';
 
 import '../../domain/entities/reset_channel.dart';
 import '../../domain/usecases/params/reset_password_params.dart';

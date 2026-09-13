@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/constants/app_dimensions.dart';
 import '../../../../../core/extensions/build_context_extensions.dart';
-import '../../../../../core/presentation/widgets/shimmer_block.dart';
+import '../../../../../core/global/presentation/widgets/shimmer_block.dart';
 import 'profile_header_skeleton.dart';
 import 'profile_promo_card_skeleton.dart';
 import 'profile_quick_actions_skeleton.dart';
@@ -38,8 +38,7 @@ class ProfileScreenSkeleton extends StatelessWidget {
             ),
             child: const SingleChildScrollView(
               padding: EdgeInsets.all(AppDimensions.paddingM),
-              physics:
-                  NeverScrollableScrollPhysics(), // Prevents engine list bouncing during load state
+              physics: NeverScrollableScrollPhysics(), // Prevents engine list bouncing during load state
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

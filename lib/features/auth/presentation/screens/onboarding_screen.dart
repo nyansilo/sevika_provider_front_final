@@ -5,7 +5,7 @@ import '../../../../core/extensions/build_context_extensions.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/animation_constants.dart';
 import '../../../../core/routes/route_list.dart';
-import '../../../../core/presentation/widgets/sevika_button.dart';
+import '../../../../core/global/presentation/widgets/sevika_button.dart';
 import '../cubits/onboarding/onboarding_cubit.dart';
 
 class OnboardingScreen extends StatefulWidget {

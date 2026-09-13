@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/constants/app_dimensions.dart';
 import '../../../../../core/extensions/build_context_extensions.dart';
-import '../../../../../core/presentation/widgets/shimmer_block.dart'; // Ensure correct path to your ShimmerBlock
+import '../../../../../core/global/presentation/widgets/shimmer_block.dart'; // Ensure correct path to your ShimmerBlock
 
 /// 👨‍🔧 SKELETON: Displays a placeholder matching the exact layout of a Provider Job Card
 class BookingJobCardSkeleton extends StatelessWidget {

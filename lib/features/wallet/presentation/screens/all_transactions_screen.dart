@@ -5,8 +5,8 @@ import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/extensions/build_context_extensions.dart';
 import '../../../../core/extensions/currency_formatter_extensions.dart';
 
-import '../../../../core/presentation/widgets/app_empty_state_placeholder.dart';
-import '../../../../core/presentation/widgets/sevika_state_placeholder.dart';
+import '../../../../core/global/presentation/widgets/app_empty_state_placeholder.dart';
+import '../../../../core/global/presentation/widgets/sevika_state_placeholder.dart';
 import '../cubits/wallet_transactions_cubit.dart';
 import '../cubits/wallet_transactions_state.dart';
 

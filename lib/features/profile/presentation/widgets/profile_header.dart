@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/constants/app_dimensions.dart';
-import '../../../../core/presentation/widgets/app_circle_avatar.dart';
+import '../../../../core/global/presentation/widgets/app_circle_avatar.dart';
 
 class ProfileHeader extends StatelessWidget {
   final String name;

@@ -1,7 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../booking/domain/entities/pagination_entity.dart';
-
 class EarningEntity extends Equatable {
   final String payoutId;
   final String? bookingReference;

@@ -1,4 +1,4 @@
-import '../../../booking/data/models/pagination_model.dart';
+import '../../../../core/global/data/models/pagination_model.dart';
 import '../../domain/entities/wallet_transaction_response_entity.dart';
 import 'wallet_transaction_model.dart';
 

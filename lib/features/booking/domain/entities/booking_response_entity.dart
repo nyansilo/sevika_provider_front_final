@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/global/domain/entities/pagination_entity.dart';
 import 'booking_entity.dart';
 import 'booking_meta_entity.dart';
-import 'pagination_entity.dart';
 
 class BookingResponseEntity extends Equatable {
   final List<BookingEntity> bookings;

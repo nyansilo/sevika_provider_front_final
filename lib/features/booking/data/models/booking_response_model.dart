@@ -62,11 +62,11 @@
 
 import 'package:flutter/foundation.dart';
 
+import '../../../../core/global/data/models/pagination_model.dart';
 import '../../domain/entities/booking_response_entity.dart';
 import '../../domain/entities/booking_entity.dart';
 import 'booking_meta_model.dart';
 import 'booking_model.dart';
-import 'pagination_model.dart';
 
 class BookingResponseModel extends BookingResponseEntity {
   const BookingResponseModel({

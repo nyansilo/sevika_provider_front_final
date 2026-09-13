@@ -6,8 +6,8 @@ import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/di/service_locator.dart';
 import '../../../../core/extensions/build_context_extensions.dart';
 import '../../../../core/extensions/date_formatter_extension.dart';
-import '../../../../core/presentation/widgets/app_circle_avatar.dart';
-import '../../../../core/presentation/widgets/sevika_state_placeholder.dart';
+import '../../../../core/global/presentation/widgets/app_circle_avatar.dart';
+import '../../../../core/global/presentation/widgets/sevika_state_placeholder.dart';
 import '../../../../core/routes/route_list.dart';
 import '../../../../core/storage/auth_token_manager.dart';
 

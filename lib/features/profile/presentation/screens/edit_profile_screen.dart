@@ -6,8 +6,8 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/extensions/build_context_extensions.dart'; // 🎯 l10n is here
-import '../../../../core/presentation/widgets/app_circle_avatar.dart';
-import '../../../../core/presentation/widgets/app_text_field.dart';
+import '../../../../core/global/presentation/widgets/app_circle_avatar.dart';
+import '../../../../core/global/presentation/widgets/app_text_field.dart';
 import '../../domain/usecases/params/update_profile_params.dart';
 import '../cubits/profile/profile_cubit.dart';
 import '../cubits/profile/profile_state.dart';

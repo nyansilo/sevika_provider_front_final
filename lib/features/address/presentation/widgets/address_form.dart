@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/extensions/build_context_extensions.dart';
-import '../../../../core/presentation/widgets/app_field_lebel.dart';
-import '../../../../core/presentation/widgets/app_text_field.dart';
+import '../../../../core/global/presentation/widgets/app_field_lebel.dart';
+import '../../../../core/global/presentation/widgets/app_text_field.dart';
 import '../../../shared/location/presentation/cubits/location/location_cubit.dart';
 import '../../../shared/location/presentation/cubits/location/location_state.dart';
 import '../../domain/entities/customer_address_entity.dart';
@@ -191,8 +192,7 @@ class _AddressFormState extends State<AddressForm> {
                                       'Street Address / Building / Apartment',
                                   controller: _addressController,
                                   maxLines: 2,
-                                  hintText:
-                                      'e.g., Samora Avenue, NHC House, 3rd Floor',
+                                  hintText: 'e.g., Samora Avenue, NHC House, 3rd Floor',
                                   prefixIcon: const Icon(
                                     Icons.location_on_outlined,
                                   ),
@@ -228,8 +228,7 @@ class _AddressFormState extends State<AddressForm> {
                                     if (val != null) {
                                       setState(() {
                                         _selectedRegionId = val;
-                                        _selectedDistrictId =
-                                            null; // Forces recalculation of sub-district context
+                                        _selectedDistrictId = null; // Forces recalculation of sub-district context
                                       });
                                     }
                                   },
@@ -269,15 +268,13 @@ class _AddressFormState extends State<AddressForm> {
                                 AppDimensions.gapM,
 
                                 const AppFieldLabel(
-                                  text:
-                                      'Delivery Instructions / Drop-off Notes (Optional)',
+                                  text: 'Delivery Instructions / Drop-off Notes (Optional)',
                                 ),
                                 AppDimensions.gapXS,
                                 AppTextField(
                                   controller: _notesController,
                                   maxLines: 3,
-                                  hintText:
-                                      'e.g., Near Magomeni Mapipa Bus Rapid Transit Station...',
+                                  hintText: 'e.g., Near Magomeni Mapipa Bus Rapid Transit Station...',
                                   prefixIcon: const Icon(
                                     Icons.description_outlined,
                                   ),

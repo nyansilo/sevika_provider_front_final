@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../booking/domain/entities/pagination_entity.dart';
+import '../../../../core/global/domain/entities/pagination_entity.dart';
 import 'earning_entity.dart';
 import 'earnings_analytics_entity.dart';
 

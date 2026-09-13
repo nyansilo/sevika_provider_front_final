@@ -1,4 +1,4 @@
-import '../../../booking/data/models/pagination_model.dart';
+import '../../../../core/global/data/models/pagination_model.dart';
 import '../../domain/entities/earning_response_entity.dart';
 import 'earning_analytics_model.dart';
 import 'earning_model.dart';

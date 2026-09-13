@@ -1,13 +1,15 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:sevika_pro/core/di/injectors/category_injector.dart';
+import 'package:sevika_pro/core/di/injectors/service_catalog_injector.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Core imports
 import '../../features/notification/presentation/cubits/setting/notification_setting_cubit.dart';
 import '../network/dio_client.dart';
 import '../network/network_info.dart';
-import '../presentation/cubits/network_cubit.dart';
+import '../global/presentation/cubits/network_cubit.dart';
 import '../services/push_notification_service.dart';
 import '../services/permission_service.dart'; // 🎯 ADDED: Import the Permission Service
 import '../storage/auth_token_manager.dart';
@@ -15,12 +17,13 @@ import '../storage/local_storage_service.dart';
 import '../storage/onboarding_storage_service.dart';
 import '../storage/token_storage_service.dart';
 import '../storage/search_history_manager.dart';
-import '../presentation/cubits/theme_cubit.dart';
+import '../global/presentation/cubits/theme_cubit.dart';
 // 🎯 ADDED: Import the new Language Cubit
-import '../presentation/cubits/language_cubit.dart';
+import '../global/presentation/cubits/language_cubit.dart';
 import '../../features/auth/presentation/cubits/onboarding/onboarding_cubit.dart';
 
 // 🚀 IMPORT YOUR NEW INJECTORS HERE
+import 'injectors/analytics_injector.dart';
 import 'injectors/app_config_injector.dart';
 import 'injectors/auth_injector.dart';
 import 'injectors/address_injector.dart';
@@ -28,6 +31,7 @@ import 'injectors/booking_injector.dart';
 import 'injectors/chat_injector.dart';
 import 'injectors/emergency_injector.dart';
 import 'injectors/injection_container.dart';
+import 'injectors/kyc_injector.dart';
 import 'injectors/location_injector.dart';
 import 'injectors/marketplace_injector.dart';
 import 'injectors/profile_injector.dart';
@@ -126,4 +130,8 @@ Future<void> setupServiceLocator() async {
   initWallet(sl);
   initEarnings(sl);
   initReview(sl);
+  initCategory(sl);
+  initServiceCatalog(sl);
+  initAnalytics(sl);
+  initKyc(sl);
 }

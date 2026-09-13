@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:equatable/equatable.dart';
 
 import '../../../../core/usecases/params/pagination_params.dart';
 import '../../domain/entities/earning_entity.dart';

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/extensions/build_context_extensions.dart';
-import '../../../../core/presentation/widgets/shimmer_block.dart';
+import '../../../../core/global/presentation/widgets/shimmer_block.dart';
 
 class HomeHeroSliderSkeleton extends StatefulWidget {
   final int itemCount;
@@ -44,8 +45,7 @@ class _HomeHeroSliderSkeletonState extends State<HomeHeroSliderSkeleton> {
           height: AppDimensions.heroCarouselHeight,
           child: PageView.builder(
             controller: _pageController,
-            physics:
-                const NeverScrollableScrollPhysics(), // Disables active sliding interactions while compiling states
+            physics: const NeverScrollableScrollPhysics(), // Disables active sliding interactions while compiling states
             itemCount: widget.itemCount,
             itemBuilder: (context, index) {
               return Center(
@@ -78,8 +78,7 @@ class _HomeHeroSliderSkeletonState extends State<HomeHeroSliderSkeleton> {
                           // 1. Banner Tag Pill Shimmer Placement
                           ShimmerBlock(
                             width: AppDimensions.size70,
-                            height: AppDimensions
-                                .size22, // Combines structural font bounding boxes + padding
+                            height: AppDimensions.size22, // Combines structural font bounding boxes + padding
                             borderRadius: BorderRadius.circular(
                               AppDimensions.radiusS,
                             ),
@@ -89,8 +88,7 @@ class _HomeHeroSliderSkeletonState extends State<HomeHeroSliderSkeleton> {
                           // 2. Core Banner Title Text Row Shimmer
                           ShimmerBlock(
                             width: AppDimensions.size180,
-                            height: AppDimensions
-                                .size22, // Corresponds to context.textTheme.titleLarge font metrics
+                            height: AppDimensions.size22, // Corresponds to context.textTheme.titleLarge font metrics
                             borderRadius: BorderRadius.circular(
                               AppDimensions.radiusXS,
                             ),
@@ -100,8 +98,7 @@ class _HomeHeroSliderSkeletonState extends State<HomeHeroSliderSkeleton> {
                           // 3. Sub-text Description Row 1 Shimmer
                           ShimmerBlock(
                             width: double.infinity,
-                            height: AppDimensions
-                                .size14, // Corresponds to context.textTheme.bodyMedium metrics
+                            height: AppDimensions.size14, // Corresponds to context.textTheme.bodyMedium metrics
                             borderRadius: BorderRadius.circular(
                               AppDimensions.radiusXS,
                             ),

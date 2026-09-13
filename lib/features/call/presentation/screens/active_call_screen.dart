@@ -852,6 +852,7 @@
 // }
 
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -859,7 +860,7 @@ import 'package:permission_handler/permission_handler.dart';
 // 🎯 Import your design system, entities, and enums
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/extensions/build_context_extensions.dart';
-import '../../../../core/presentation/widgets/app_circle_avatar.dart';
+import '../../../../core/global/presentation/widgets/app_circle_avatar.dart';
 import '../../domain/enums/call_type.dart';
 
 // 📦 ADDED: Import the strongly-typed args class

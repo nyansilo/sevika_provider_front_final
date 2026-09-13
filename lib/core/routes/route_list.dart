@@ -83,15 +83,16 @@ class RouteList {
   static const String payoutDetailsPage = '/payout-details';
 
   // =========================================================================
-  // REVIEWS, FAVORITES & WAITLIST
+  // ⭐ REVIEWS, FEEDBACK & PERFORMANCE (🚀 UPDATED CATEGORIZATION)
   // =========================================================================
   static const String reviewsPage = '/reviews';
-
   static const String feedbackHistoryPage = '/feedback-history';
   static const String favoriteProviderPage = '/favorite-providers';
   static const String favoriteServicePage = '/favorite-services';
   static const String providerFeedbackPage = '/provider-feedback';
   static const String providerReviewReplyPage = '/provider-review-reply';
+  static const String performanceAnalyticsPage =
+      '/performance-analytics'; // 🚀 MOVED HERE
   static const String waitlistPage = '/waitlist';
 
   // =========================================================================
@@ -130,4 +131,11 @@ class RouteList {
   static const String bookingDashboardPage = '/provider-booking-dashboard';
   static const String exploreMarketplacePage = '/provider-explore-marketplace';
   static const String rewardsDashboardPage = '/provider-reward-dashboard';
+
+  // =========================================================================
+  // 🛡️ TRUST & SAFETY (KYC)
+  // =========================================================================
+  static const String kycDashboardPage = '/kyc-dashboard';
+  static const String submitBasicKycPage = '/submit-basic-kyc';
+  static const String submitProKycPage = '/submit-pro-kyc';
 }

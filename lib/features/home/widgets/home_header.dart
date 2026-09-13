@@ -138,9 +138,10 @@
 // }
 
 import 'package:flutter/material.dart';
+
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/extensions/build_context_extensions.dart';
-import '../../../core/presentation/widgets/app_circle_avatar.dart';
+import '../../../core/global/presentation/widgets/app_circle_avatar.dart';
 
 class HomeHeader extends StatelessWidget {
   final String imageUrl;

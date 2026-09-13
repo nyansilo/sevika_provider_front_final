@@ -301,9 +301,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/extensions/build_context_extensions.dart';
 import '../../../../core/extensions/currency_formatter_extensions.dart';
-import '../../../../core/presentation/widgets/app_empty_state_placeholder.dart';
-import '../../../../core/presentation/widgets/sevika_state_placeholder.dart';
-import '../../../../core/presentation/widgets/wallet_balance_card.dart';
+import '../../../../core/global/presentation/widgets/app_empty_state_placeholder.dart';
+import '../../../../core/global/presentation/widgets/sevika_state_placeholder.dart';
+import '../../../../core/global/presentation/widgets/wallet_balance_card.dart';
 import '../../../../core/routes/route_list.dart'; // 🎯 Centralized routes
 
 import '../cubits/wallet_cubit.dart';

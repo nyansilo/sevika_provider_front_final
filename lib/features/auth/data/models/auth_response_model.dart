@@ -87,7 +87,6 @@ class AuthResponseModel extends Equatable {
       tokenType: tokenType,
       accessToken: accessToken,
       refreshToken: refreshToken,
-      // 🛡️ Provide a safe fallback if user payload is missing (e.g., on token refresh)
       user:
           user ??
           const UserEntity(
@@ -98,15 +97,17 @@ class AuthResponseModel extends Equatable {
             email: '',
             role: UserRole.customer,
             profileImage: '',
-            pushNotificationsEnabled:
-                true, // 🎯 Restored to align with AuthCubit requirements
+            pushNotificationsEnabled: true,
+            // 🚀 KYC INTEGRATION: Safe fallbacks for missing user payload
+            kycStatus: 'unsubmitted',
+            kycTier: 'unverified', // 🎯 Added tier fallback
+            isKycApproved: false,
           ),
     );
   }
 
   /// 📥 PARSE FROM JSON
   factory AuthResponseModel.fromJson(Map<String, dynamic> json) {
-    // 🛡️ Safely unwrap the 'data' payload if the backend wrapped it
     final Map<String, dynamic> target =
         json.containsKey('data') && json['data'] is Map<String, dynamic>
         ? json['data'] as Map<String, dynamic>
@@ -132,7 +133,6 @@ class AuthResponseModel extends Equatable {
   }
 
   /// 📤 SERIALIZE TO JSON
-  /// Standard practice ensures models can be converted back to JSON for local caching or debugging.
   Map<String, dynamic> toJson() {
     return {
       'token_type': tokenType,

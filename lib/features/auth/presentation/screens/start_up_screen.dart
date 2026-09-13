@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart'; // 📦 Required for opening the store URL
 
 import '../../../../core/di/service_locator.dart';
-import '../../../../core/presentation/widgets/sevika_alert_dialog.dart';
+import '../../../../core/global/presentation/widgets/sevika_alert_dialog.dart';
 import '../../../../core/routes/route_list.dart';
 import '../../../../core/storage/onboarding_storage_service.dart';
 import '../../../app_config/presentation/cubit/app_config_cubit.dart';
@@ -85,6 +85,10 @@ class _StartUpScreenState extends State<StartUpScreen> {
       // Trigger data fetches safely now!
       context.read<LocationCubit>().fetchAdministrativeBoundaries();
       context.read<NotificationsCubit>().loadNotifications();
+
+      // 🛡️ Note on KYC: We deliberately DO NOT fetch KYC status during
+      // app startup to keep the boot sequence ultra-fast. It is fetched
+      // silently in the background when the ProfileDashboard screen builds!
 
       Navigator.pushReplacementNamed(context, RouteList.mainPage);
     } else if (state is AuthUnauthenticated || state is AuthError) {

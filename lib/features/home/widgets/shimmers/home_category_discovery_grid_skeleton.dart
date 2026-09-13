@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../../../../core/constants/app_dimensions.dart';
-import '../../../../core/presentation/widgets/shimmer_block.dart';
+import '../../../../core/global/presentation/widgets/shimmer_block.dart';
 
 class HomeCategoryDiscoveryGridSkeleton extends StatelessWidget {
   final int itemCount;
@@ -33,8 +34,7 @@ class HomeCategoryDiscoveryGridSkeleton extends StatelessWidget {
           children: [
             // 1. Icon Backing Box Container Shimmer
             const ShimmerBlock(
-              width: AppDimensions
-                  .size56, // Combines icon constraint size + internal padding bounds
+              width: AppDimensions.size56, // Combines icon constraint size + internal padding bounds
               height: AppDimensions.size56,
               borderRadius: BorderRadius.all(
                 Radius.circular(AppDimensions.radiusL),
@@ -47,8 +47,7 @@ class HomeCategoryDiscoveryGridSkeleton extends StatelessWidget {
             // 2. Category Label Text Line Shimmer
             ShimmerBlock(
               width: AppDimensions.size50,
-              height: AppDimensions
-                  .size12, // Corresponds directly to context.textTheme.bodySmall font height metrics
+              height: AppDimensions.size12, // Corresponds directly to context.textTheme.bodySmall font height metrics
               borderRadius: BorderRadius.circular(AppDimensions.radiusXS),
             ),
           ],

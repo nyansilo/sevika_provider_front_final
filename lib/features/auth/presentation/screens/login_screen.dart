@@ -5,10 +5,10 @@ import '../../../../core/extensions/build_context_extensions.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/routes/route_list.dart';
 import '../../../../core/utils/app_validators.dart';
-import '../../../../core/presentation/widgets/brand_logo.dart';
-import '../../../../core/presentation/widgets/app_text_field.dart';
-import '../../../../core/presentation/widgets/sevika_button.dart';
-import '../../../../core/presentation/widgets/social_login_buttons.dart';
+import '../../../../core/global/presentation/widgets/brand_logo.dart';
+import '../../../../core/global/presentation/widgets/app_text_field.dart';
+import '../../../../core/global/presentation/widgets/sevika_button.dart';
+import '../../../../core/global/presentation/widgets/social_login_buttons.dart';
 
 import '../../domain/entities/social_provider.dart';
 import '../../domain/entities/user_entity.dart';

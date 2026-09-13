@@ -158,8 +158,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart'; // 📦 ADDED: url_launcher import
+
 import '../../../../core/extensions/build_context_extensions.dart';
-import '../../../../core/presentation/widgets/sevika_state_placeholder.dart';
+import '../../../../core/global/presentation/widgets/sevika_state_placeholder.dart';
 
 class ForceUpdateScreen extends StatelessWidget {
   final String storeUrl;
@@ -176,8 +177,7 @@ class ForceUpdateScreen extends StatelessWidget {
           child: Center(
             child: SevikaStatePlaceholder(
               title: 'Time for an Update!',
-              message:
-                  'We have added new features and squashed some bugs. To ensure you have the best and most secure experience, please update Sevika to the latest version.',
+              message: 'We have added new features and squashed some bugs. To ensure you have the best and most secure experience, please update Sevika to the latest version.',
               icon: Icons.system_update_rounded,
               iconColor: context.colorScheme.primary,
               iconBackgroundColor: context.colorScheme.primaryContainer

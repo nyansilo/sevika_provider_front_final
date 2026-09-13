@@ -870,11 +870,10 @@ import 'package:open_filex/open_filex.dart'; // 🎯 REAL NATIVE FILE OPENER
 // 🎯 CORE IMPORTS
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/extensions/build_context_extensions.dart';
-import '../../../../core/presentation/widgets/sevika_button.dart';
+import '../../../../core/global/presentation/widgets/sevika_button.dart';
 import '../../../../core/extensions/currency_formatter_extensions.dart';
 
 // 🎯 DOMAIN & CUBIT IMPORTS
-import '../../../notification/domain/entities/notification_type.dart';
 import '../../../notification/presentation/cubits/notification/notifications_cubit.dart';
 import '../../../notification/presentation/cubits/notification/notifications_state.dart';
 import '../../domain/entities/booking_entity.dart';

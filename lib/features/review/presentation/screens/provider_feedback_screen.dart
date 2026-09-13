@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/extensions/build_context_extensions.dart';
 import '../../../../core/navigation/app_keys.dart';
-import '../../../../core/presentation/widgets/sevika_state_placeholder.dart';
+import '../../../../core/global/presentation/widgets/sevika_state_placeholder.dart';
 import '../../../../core/routes/route_list.dart'; // 🚀 ADDED FOR ROUTING
 import '../../domain/entities/provider_review_item_entity.dart';
 import '../args/provider_reply_args.dart';

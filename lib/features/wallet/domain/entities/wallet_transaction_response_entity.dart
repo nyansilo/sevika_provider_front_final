@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../booking/domain/entities/pagination_entity.dart';
+import '../../../../core/global/domain/entities/pagination_entity.dart';
 import 'wallet_transaction_entity.dart';
 
 class WalletTransactionsResponseEntity extends Equatable {

@@ -2,18 +2,23 @@
 // import 'package:flutter_bloc/flutter_bloc.dart';
 
 // import '../../../../core/constants/app_dimensions.dart';
+// import '../../../../core/di/service_locator.dart'; // 🎯 DI Import for sl
 // import '../../../../core/extensions/build_context_extensions.dart';
 // import '../../../../core/extensions/currency_formatter_extensions.dart';
 // import '../../../../core/l10n/arb/app_localizations.dart';
 // import '../../../../core/routes/route_list.dart';
 
-// // 🎯 ADDED: Booking Cubit Imports to pull analytics data globally!
+// // 🎯 Booking Cubit Imports to pull analytics data globally!
 // import '../../../booking/domain/entities/booking_status.dart';
 // import '../../../booking/presentation/cubits/booking_history/booking_history_cubit.dart';
 // import '../../../booking/presentation/cubits/booking_history/booking_history_state.dart';
 
-// import '../../../wallet/presentation/cubits/wallet_cubit.dart'; // 🎯 Wallet Cubit Import
-// import '../../../wallet/presentation/cubits/wallet_state.dart'; // 🎯 Wallet State Import
+// import '../../../wallet/presentation/cubits/wallet_cubit.dart';
+// import '../../../wallet/presentation/cubits/wallet_state.dart';
+
+// // 🎯 ADDED: Reviews Cubit to fetch dynamic average rating!
+// import '../../../review/presentation/cubits/provider_reviews_cubit.dart';
+// import '../../../review/presentation/cubits/provider_reviews_state.dart';
 
 // import '../cubits/profile/profile_cubit.dart';
 // import '../cubits/profile/profile_state.dart';
@@ -37,6 +42,16 @@
 // class _ProfileDashboardScreenState extends State<ProfileDashboardScreen> {
 //   bool _isCurrentlyVisible = false;
 
+//   // 🚀 Local instance of ProviderReviewsCubit just for the Dashboard
+//   late final ProviderReviewsCubit _providerReviewsCubit;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     // Retrieve a fresh instance from the Dependency Injector
+//     _providerReviewsCubit = sl<ProviderReviewsCubit>();
+//   }
+
 //   @override
 //   void didChangeDependencies() {
 //     super.didChangeDependencies();
@@ -50,11 +65,19 @@
 //     }
 //   }
 
+//   @override
+//   void dispose() {
+//     // Clean up the local cubit to prevent memory leaks
+//     _providerReviewsCubit.close();
+//     super.dispose();
+//   }
+
 //   void _triggerSilentDataRefresh() {
 //     if (!mounted) return;
 //     context.read<ProfileCubit>().loadProfile();
 //     context.read<WalletCubit>().fetchWallet();
 //     context.read<BookingHistoryCubit>().loadInitialBookings();
+//     _providerReviewsCubit.loadReviews(); // 🎯 Fetch reviews for dynamic rating
 //   }
 
 //   Future<void> _handleManualPullToRefresh() async {
@@ -63,6 +86,7 @@
 //       context.read<ProfileCubit>().loadProfile(),
 //       context.read<WalletCubit>().fetchWallet(),
 //       context.read<BookingHistoryCubit>().loadInitialBookings(),
+//       _providerReviewsCubit.loadReviews(), // 🎯 Refresh rating on pull
 //     ]);
 //   }
 
@@ -70,66 +94,70 @@
 //   Widget build(BuildContext context) {
 //     final l10n = context.l10n;
 
-//     return Scaffold(
-//       resizeToAvoidBottomInset: false,
-//       backgroundColor: context.colorScheme.surface,
-//       appBar: AppBar(
-//         title: const Text(
-//           'My Business Profile',
-//           style: TextStyle(fontWeight: FontWeight.bold),
-//         ),
+//     // 🚀 Wrapped the Scaffold in a BlocProvider so the widget tree has access to it
+//     return BlocProvider.value(
+//       value: _providerReviewsCubit,
+//       child: Scaffold(
+//         resizeToAvoidBottomInset: false,
 //         backgroundColor: context.colorScheme.surface,
-//         elevation: 0,
-//         centerTitle: true,
-//         actions: [
-//           IconButton(
-//             icon: Icon(
-//               Icons.settings_outlined,
-//               color: context.colorScheme.onSurface,
-//             ),
-//             onPressed: () =>
-//                 Navigator.pushNamed(context, RouteList.settingPage),
+//         appBar: AppBar(
+//           title: const Text(
+//             'My Business Profile',
+//             style: TextStyle(fontWeight: FontWeight.bold),
 //           ),
-//         ],
-//       ),
-//       body: BlocListener<ProfileCubit, ProfileState>(
-//         listenWhen: (previous, current) => current is ProfileFailure,
-//         listener: (context, state) {
-//           if (state is ProfileFailure) {
-//             context.showSnackBar(
-//               state.error.message ?? l10n.unexpectedError,
-//               type: SnackBarType.error,
-//             );
-//           }
-//         },
-//         child: SafeArea(
-//           child: Center(
-//             child: ConstrainedBox(
-//               constraints: const BoxConstraints(
-//                 maxWidth: AppDimensions.maxDashboardWidth,
+//           backgroundColor: context.colorScheme.surface,
+//           elevation: 0,
+//           centerTitle: true,
+//           actions: [
+//             IconButton(
+//               icon: Icon(
+//                 Icons.settings_outlined,
+//                 color: context.colorScheme.onSurface,
 //               ),
-//               child: BlocBuilder<ProfileCubit, ProfileState>(
-//                 builder: (context, profileState) {
-//                   return RefreshIndicator.adaptive(
-//                     onRefresh: _handleManualPullToRefresh,
-//                     child: SingleChildScrollView(
-//                       padding: const EdgeInsets.all(AppDimensions.paddingM),
-//                       physics: const AlwaysScrollableScrollPhysics(
-//                         parent: BouncingScrollPhysics(),
-//                       ),
-//                       child: AnimatedSwitcher(
-//                         duration: const Duration(milliseconds: 300),
-//                         switchInCurve: Curves.easeInOut,
-//                         switchOutCurve: Curves.easeInOut,
-//                         child: _getLayoutForProfileState(
-//                           context,
-//                           profileState,
-//                           l10n,
+//               onPressed: () =>
+//                   Navigator.pushNamed(context, RouteList.settingPage),
+//             ),
+//           ],
+//         ),
+//         body: BlocListener<ProfileCubit, ProfileState>(
+//           listenWhen: (previous, current) => current is ProfileFailure,
+//           listener: (context, state) {
+//             if (state is ProfileFailure) {
+//               context.showSnackBar(
+//                 state.error.message ?? l10n.unexpectedError,
+//                 type: SnackBarType.error,
+//               );
+//             }
+//           },
+//           child: SafeArea(
+//             child: Center(
+//               child: ConstrainedBox(
+//                 constraints: const BoxConstraints(
+//                   maxWidth: AppDimensions.maxDashboardWidth,
+//                 ),
+//                 child: BlocBuilder<ProfileCubit, ProfileState>(
+//                   builder: (context, profileState) {
+//                     return RefreshIndicator.adaptive(
+//                       onRefresh: _handleManualPullToRefresh,
+//                       child: SingleChildScrollView(
+//                         padding: const EdgeInsets.all(AppDimensions.paddingM),
+//                         physics: const AlwaysScrollableScrollPhysics(
+//                           parent: BouncingScrollPhysics(),
+//                         ),
+//                         child: AnimatedSwitcher(
+//                           duration: const Duration(milliseconds: 300),
+//                           switchInCurve: Curves.easeInOut,
+//                           switchOutCurve: Curves.easeInOut,
+//                           child: _getLayoutForProfileState(
+//                             context,
+//                             profileState,
+//                             l10n,
+//                           ),
 //                         ),
 //                       ),
-//                     ),
-//                   );
-//                 },
+//                     );
+//                   },
+//                 ),
 //               ),
 //             ),
 //           ),
@@ -233,39 +261,57 @@
 //         // 👨‍🔧 PROVIDER METRICS (Holy Trinity of Gig Work)
 //         BlocBuilder<WalletCubit, WalletState>(
 //           builder: (context, walletState) {
-//             String displayEarnings = '---';
-//             if (walletState is WalletLoaded) {
-//               displayEarnings = walletState.wallet.availableBalance
-//                   .toCompactTzs(symbol: 'TSh');
-//             }
+//             // 🚀 INJECTED: Read the Provider Reviews State dynamically
+//             return BlocBuilder<ProviderReviewsCubit, ProviderReviewsState>(
+//               builder: (context, reviewsState) {
+//                 // 1. EARNINGS
+//                 String displayEarnings = '---';
+//                 if (walletState is WalletLoaded) {
+//                   displayEarnings = walletState.wallet.availableBalance
+//                       .toCompactTzs(symbol: 'TSh');
+//                 }
 
-//             int completedJobsCount = 0;
-//             final bookingState = context.watch<BookingHistoryCubit>().state;
+//                 // 2. COMPLETED JOBS
+//                 int completedJobsCount = 0;
+//                 final bookingState = context.watch<BookingHistoryCubit>().state;
 
-//             if (bookingState is BookingHistoryLoadSuccess) {
-//               // 1. Try mapping from Laravel backend summary first
-//               completedJobsCount = bookingState.summary?.completedCount ?? 0;
+//                 if (bookingState is BookingHistoryLoadSuccess) {
+//                   completedJobsCount =
+//                       bookingState.summary?.completedCount ?? 0;
+//                   if (completedJobsCount == 0 &&
+//                       bookingState.bookings.isNotEmpty) {
+//                     completedJobsCount = bookingState.bookings
+//                         .where((job) => job.status == BookingStatus.completed)
+//                         .length;
+//                   }
+//                 }
 
-//               // 🛡️ 2. BULLETPROOF FALLBACK: If Laravel didn't send completedCount, count locally!
-//               if (completedJobsCount == 0 && bookingState.bookings.isNotEmpty) {
-//                 completedJobsCount = bookingState.bookings
-//                     .where((job) => job.status == BookingStatus.completed)
-//                     .length;
-//               }
-//             }
+//                 // 3. 🎯 DYNAMIC RATING
+//                 String dynamicRating = 'New';
+//                 if (reviewsState is ProviderReviewsLoadSuccess) {
+//                   dynamicRating = reviewsState.metrics.averageRating > 0
+//                       ? reviewsState.metrics.averageRating.toStringAsFixed(1)
+//                       : 'New';
+//                 }
 
-//             return ProfileQuickActions(
-//               totalCompletedJobs: completedJobsCount, // 🎯 Bulletproof metric
-//               averageRating: '4.9',
-//               totalEarnings: displayEarnings,
-//               onJobsTap: () =>
-//                   Navigator.pushNamed(context, RouteList.bookingHistoryPage),
-//               onRatingTap: () => Navigator.pushNamed(
-//                 context,
-//                 RouteList.providerFeedbackPage,
-//               ), // 🚀 UPDATED
-//               onEarningsTap: () =>
-//                   Navigator.pushNamed(context, RouteList.walletDashboardPage),
+//                 return ProfileQuickActions(
+//                   totalCompletedJobs: completedJobsCount,
+//                   averageRating: dynamicRating, // 🎯 Fed dynamic data here!
+//                   totalEarnings: displayEarnings,
+//                   onJobsTap: () => Navigator.pushNamed(
+//                     context,
+//                     RouteList.bookingHistoryPage,
+//                   ),
+//                   onRatingTap: () => Navigator.pushNamed(
+//                     context,
+//                     RouteList.providerFeedbackPage,
+//                   ),
+//                   onEarningsTap: () => Navigator.pushNamed(
+//                     context,
+//                     RouteList.walletDashboardPage,
+//                   ),
+//                 );
+//               },
 //             );
 //           },
 //         ),
@@ -283,21 +329,23 @@
 //             ProfileMenuItem(
 //               icon: Icons.star_border_rounded,
 //               title: 'Client Reviews & Reputation',
-//               onTap: () => Navigator.pushNamed(
-//                 context,
-//                 RouteList.providerFeedbackPage,
-//               ), // 🚀 UPDATED
+//               onTap: () =>
+//                   Navigator.pushNamed(context, RouteList.providerFeedbackPage),
 //             ),
 //             ProfileMenuItem(
 //               icon: Icons.insights_rounded,
 //               title: 'Performance Analytics',
-//               onTap: () {}, // Navigate to analytics dashboard
+//               onTap: () {
+//                 Navigator.pushNamed(
+//                   context,
+//                   RouteList.performanceAnalyticsPage,
+//                 );
+//               },
 //             ),
 //           ],
 //         ),
 //         AppDimensions.gapL,
 
-//         // 🎯 THE WALLET & REWARDS INTEGRATION
 //         ProfileSectionWrapper(
 //           title: 'Wallet & Financials',
 //           children: [
@@ -375,10 +423,13 @@ import '../../../booking/domain/entities/booking_status.dart';
 import '../../../booking/presentation/cubits/booking_history/booking_history_cubit.dart';
 import '../../../booking/presentation/cubits/booking_history/booking_history_state.dart';
 
+import '../../../kyc/domain/enums/kyc_tier.dart';
+import '../../../kyc/presentation/cubits/provider_kyc_cubit.dart';
+import '../../../kyc/presentation/cubits/provider_kyc_state.dart';
 import '../../../wallet/presentation/cubits/wallet_cubit.dart';
 import '../../../wallet/presentation/cubits/wallet_state.dart';
 
-// 🎯 ADDED: Reviews Cubit to fetch dynamic average rating!
+// 🎯 Reviews Cubit to fetch dynamic average rating!
 import '../../../review/presentation/cubits/provider_reviews_cubit.dart';
 import '../../../review/presentation/cubits/provider_reviews_state.dart';
 
@@ -404,14 +455,16 @@ class ProfileDashboardScreen extends StatefulWidget {
 class _ProfileDashboardScreenState extends State<ProfileDashboardScreen> {
   bool _isCurrentlyVisible = false;
 
-  // 🚀 Local instance of ProviderReviewsCubit just for the Dashboard
+  // 🚀 Local instances of auxiliary cubits for the Dashboard
   late final ProviderReviewsCubit _providerReviewsCubit;
+  late final ProviderKycCubit _providerKycCubit; // 🛡️ Added KYC Engine
 
   @override
   void initState() {
     super.initState();
-    // Retrieve a fresh instance from the Dependency Injector
+    // Retrieve fresh instances from the Dependency Injector
     _providerReviewsCubit = sl<ProviderReviewsCubit>();
+    _providerKycCubit = sl<ProviderKycCubit>();
   }
 
   @override
@@ -429,8 +482,9 @@ class _ProfileDashboardScreenState extends State<ProfileDashboardScreen> {
 
   @override
   void dispose() {
-    // Clean up the local cubit to prevent memory leaks
+    // Clean up local cubits to prevent memory leaks
     _providerReviewsCubit.close();
+    _providerKycCubit.close();
     super.dispose();
   }
 
@@ -439,7 +493,9 @@ class _ProfileDashboardScreenState extends State<ProfileDashboardScreen> {
     context.read<ProfileCubit>().loadProfile();
     context.read<WalletCubit>().fetchWallet();
     context.read<BookingHistoryCubit>().loadInitialBookings();
-    _providerReviewsCubit.loadReviews(); // 🎯 Fetch reviews for dynamic rating
+
+    _providerReviewsCubit.loadReviews();
+    _providerKycCubit.fetchKycStatus(); // 🛡️ Silently pre-warm the KYC State
   }
 
   Future<void> _handleManualPullToRefresh() async {
@@ -448,7 +504,8 @@ class _ProfileDashboardScreenState extends State<ProfileDashboardScreen> {
       context.read<ProfileCubit>().loadProfile(),
       context.read<WalletCubit>().fetchWallet(),
       context.read<BookingHistoryCubit>().loadInitialBookings(),
-      _providerReviewsCubit.loadReviews(), // 🎯 Refresh rating on pull
+      _providerReviewsCubit.loadReviews(),
+      _providerKycCubit.fetchKycStatus(), // 🛡️ Refresh KYC on pull
     ]);
   }
 
@@ -456,9 +513,12 @@ class _ProfileDashboardScreenState extends State<ProfileDashboardScreen> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    // 🚀 Wrapped the Scaffold in a BlocProvider so the widget tree has access to it
-    return BlocProvider.value(
-      value: _providerReviewsCubit,
+    // 🚀 MultiBlocProvider wraps the tree to supply the local auxiliary engines
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: _providerReviewsCubit),
+        BlocProvider.value(value: _providerKycCubit), // 🛡️ Provide KYC locally
+      ],
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: context.colorScheme.surface,
@@ -536,11 +596,9 @@ class _ProfileDashboardScreenState extends State<ProfileDashboardScreen> {
     if (state is ProfileLoaded) {
       return _buildContentLayout(context, state, l10n);
     }
-
     if (state is ProfileLoading || state is ProfileInitial) {
       return _buildSkeletonLayout();
     }
-
     if (state is ProfileFailure) {
       return Center(
         key: const ValueKey('profile_failure_fallback_view'),
@@ -565,7 +623,6 @@ class _ProfileDashboardScreenState extends State<ProfileDashboardScreen> {
         ),
       );
     }
-
     return const SizedBox.shrink();
   }
 
@@ -596,7 +653,6 @@ class _ProfileDashboardScreenState extends State<ProfileDashboardScreen> {
     AppLocalizations l10n,
   ) {
     final user = profileState.profile.userBase;
-
     final String displayedImage = user.profileImage.isNotEmpty
         ? user.profileImage
         : 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150';
@@ -605,16 +661,32 @@ class _ProfileDashboardScreenState extends State<ProfileDashboardScreen> {
       key: const ValueKey('content_layout_view'),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ProfileHeader(
-          name: user.name,
-          phone: user.phoneNumber,
-          imageUrl: displayedImage,
-          providerBadge: 'Verified Partner',
-          onTap: () {
-            Navigator.pushNamed(
-              context,
-              RouteList.editProfilePage,
-              arguments: context.read<ProfileCubit>(),
+        // 🛡️ DYNAMIC KYC BADGE INJECTION
+        BlocBuilder<ProviderKycCubit, ProviderKycState>(
+          builder: (context, kycState) {
+            String badgeText = 'Unverified Partner'; // Default
+
+            // Render text dynamically based on backend Tier mapping
+            if (kycState is ProviderKycLoaded) {
+              if (kycState.kycData.kycTier == KycTier.professional) {
+                badgeText = 'Pro Verified Partner';
+              } else if (kycState.kycData.kycTier == KycTier.basic) {
+                badgeText = 'Verified Partner';
+              }
+            }
+
+            return ProfileHeader(
+              name: user.name,
+              phone: user.phoneNumber,
+              imageUrl: displayedImage,
+              providerBadge: badgeText, // 🚀 Passed dynamically!
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  RouteList.editProfilePage,
+                  arguments: context.read<ProfileCubit>(),
+                );
+              },
             );
           },
         ),
@@ -623,7 +695,6 @@ class _ProfileDashboardScreenState extends State<ProfileDashboardScreen> {
         // 👨‍🔧 PROVIDER METRICS (Holy Trinity of Gig Work)
         BlocBuilder<WalletCubit, WalletState>(
           builder: (context, walletState) {
-            // 🚀 INJECTED: Read the Provider Reviews State dynamically
             return BlocBuilder<ProviderReviewsCubit, ProviderReviewsState>(
               builder: (context, reviewsState) {
                 // 1. EARNINGS
@@ -636,7 +707,6 @@ class _ProfileDashboardScreenState extends State<ProfileDashboardScreen> {
                 // 2. COMPLETED JOBS
                 int completedJobsCount = 0;
                 final bookingState = context.watch<BookingHistoryCubit>().state;
-
                 if (bookingState is BookingHistoryLoadSuccess) {
                   completedJobsCount =
                       bookingState.summary?.completedCount ?? 0;
@@ -648,7 +718,7 @@ class _ProfileDashboardScreenState extends State<ProfileDashboardScreen> {
                   }
                 }
 
-                // 3. 🎯 DYNAMIC RATING
+                // 3. DYNAMIC RATING
                 String dynamicRating = 'New';
                 if (reviewsState is ProviderReviewsLoadSuccess) {
                   dynamicRating = reviewsState.metrics.averageRating > 0
@@ -658,7 +728,7 @@ class _ProfileDashboardScreenState extends State<ProfileDashboardScreen> {
 
                 return ProfileQuickActions(
                   totalCompletedJobs: completedJobsCount,
-                  averageRating: dynamicRating, // 🎯 Fed dynamic data here!
+                  averageRating: dynamicRating,
                   totalEarnings: displayEarnings,
                   onJobsTap: () => Navigator.pushNamed(
                     context,
@@ -677,11 +747,18 @@ class _ProfileDashboardScreenState extends State<ProfileDashboardScreen> {
             );
           },
         ),
-
         AppDimensions.gapL,
+
         ProfileSectionWrapper(
           title: 'Business Management',
           children: [
+            // 🛡️ KYC MENU ITEM INTEGRATION
+            ProfileMenuItem(
+              icon: Icons.verified_user_rounded,
+              title: 'Identity Verification (KYC)',
+              onTap: () =>
+                  Navigator.pushNamed(context, RouteList.kycDashboardPage),
+            ),
             ProfileMenuItem(
               icon: Icons.design_services_rounded,
               title: 'My Service Portfolio',
@@ -697,7 +774,10 @@ class _ProfileDashboardScreenState extends State<ProfileDashboardScreen> {
             ProfileMenuItem(
               icon: Icons.insights_rounded,
               title: 'Performance Analytics',
-              onTap: () {}, // Navigate to analytics dashboard
+              onTap: () => Navigator.pushNamed(
+                context,
+                RouteList.performanceAnalyticsPage,
+              ),
             ),
           ],
         ),

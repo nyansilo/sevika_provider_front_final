@@ -140,9 +140,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/extensions/build_context_extensions.dart';
-import '../../../../core/presentation/widgets/sevika_state_placeholder.dart';
+import '../../../../core/global/presentation/widgets/sevika_state_placeholder.dart';
 import '../cubits/chat_cubit.dart';
 import '../cubits/chat_state.dart';
 import '../widgets/chat_room/chat_room_list_view.dart';

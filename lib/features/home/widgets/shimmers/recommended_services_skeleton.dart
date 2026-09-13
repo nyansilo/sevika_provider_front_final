@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
 import '../../../../../core/constants/app_dimensions.dart';
 import '../../../../../core/extensions/build_context_extensions.dart';
-import '../../../../core/presentation/widgets/shimmer_block.dart';
+import '../../../../core/global/presentation/widgets/shimmer_block.dart';
 
 class RecommendedServicesSkeleton extends StatelessWidget {
   final int itemCount;

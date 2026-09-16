@@ -1,4 +1,5 @@
 // import 'package:equatable/equatable.dart';
+
 // import 'user_role.dart';
 
 // class UserEntity extends Equatable {
@@ -11,6 +12,12 @@
 //   final String profileImage;
 //   final bool pushNotificationsEnabled;
 
+//   // 🚀 ADDED: KYC Trust & Safety fields
+//   final String kycStatus;
+//   final String
+//   kycTier; // 🎯 NEW: Tracks 'unverified', 'basic', or 'professional' globally
+//   final bool isKycApproved; // 🎯 KEPT: Convenience boolean for quick Tier 1 baseline checks
+
 //   const UserEntity({
 //     required this.userId,
 //     required this.firstName,
@@ -20,9 +27,18 @@
 //     required this.role,
 //     required this.profileImage,
 //     required this.pushNotificationsEnabled,
+//     // 🚀 ADDED
+//     required this.kycStatus,
+//     required this.kycTier,
+//     required this.isKycApproved,
 //   });
 
 //   String get name => '$firstName $lastName'.trim();
+
+//   // 🛡️ DECISION ENGINE HELPERS (Use these on your UI buttons!)
+//   bool get canAcceptInstantJobs =>
+//       kycTier == 'basic' || kycTier == 'professional';
+//   bool get canBidOnCustomJobs => kycTier == 'professional';
 
 //   @override
 //   List<Object?> get props => [
@@ -34,6 +50,9 @@
 //     role,
 //     profileImage,
 //     pushNotificationsEnabled,
+//     kycStatus,
+//     kycTier,
+//     isKycApproved,
 //   ];
 // }
 
@@ -51,11 +70,13 @@ class UserEntity extends Equatable {
   final String profileImage;
   final bool pushNotificationsEnabled;
 
+  // 🚀 ADDED: System Availability State
+  final bool isOnline;
+
   // 🚀 ADDED: KYC Trust & Safety fields
   final String kycStatus;
-  final String
-  kycTier; // 🎯 NEW: Tracks 'unverified', 'basic', or 'professional' globally
-  final bool isKycApproved; // 🎯 KEPT: Convenience boolean for quick Tier 1 baseline checks
+  final String kycTier;
+  final bool isKycApproved;
 
   const UserEntity({
     required this.userId,
@@ -66,7 +87,7 @@ class UserEntity extends Equatable {
     required this.role,
     required this.profileImage,
     required this.pushNotificationsEnabled,
-    // 🚀 ADDED
+    required this.isOnline, // 🎯 NEW
     required this.kycStatus,
     required this.kycTier,
     required this.isKycApproved,
@@ -74,7 +95,7 @@ class UserEntity extends Equatable {
 
   String get name => '$firstName $lastName'.trim();
 
-  // 🛡️ DECISION ENGINE HELPERS (Use these on your UI buttons!)
+  // 🛡️ DECISION ENGINE HELPERS
   bool get canAcceptInstantJobs =>
       kycTier == 'basic' || kycTier == 'professional';
   bool get canBidOnCustomJobs => kycTier == 'professional';
@@ -89,6 +110,7 @@ class UserEntity extends Equatable {
     role,
     profileImage,
     pushNotificationsEnabled,
+    isOnline, // 🎯 NEW
     kycStatus,
     kycTier,
     isKycApproved,

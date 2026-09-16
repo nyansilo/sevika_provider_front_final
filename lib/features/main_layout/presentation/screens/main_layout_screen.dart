@@ -19,7 +19,12 @@
 // import '../widgets/navigation_tab_item.dart';
 
 // class MainLayoutScreen extends StatefulWidget {
-//   const MainLayoutScreen({super.key});
+//   // 🎯 INDUSTRY STANDARD FIX: A GlobalKey allows deep-linked screens (like Notifications)
+//   // to safely command the Root Layout to switch tabs WITHOUT destroying the Bottom Nav Bar!
+//   static final GlobalKey<_MainLayoutScreenState> layoutKey =
+//       GlobalKey<_MainLayoutScreenState>();
+
+//   MainLayoutScreen({Key? key}) : super(key: key ?? layoutKey);
 
 //   @override
 //   State<MainLayoutScreen> createState() => _MainLayoutScreenState();
@@ -27,23 +32,21 @@
 
 // class _MainLayoutScreenState extends State<MainLayoutScreen> {
 //   int _currentTab = 0;
+//   int _bookingInnerTab = 0; // 🎯 Tracks the inner tab of the Booking Dashboard
 //   bool _isWebSocketInitialized = false;
 //   late NotificationsCubit _notificationsCubit;
 
-//   // 👨‍🔧 PROVIDER SCREENS:
-//   // 1. Dashboard (Earnings/New Leads)
-//   // 2. My Jobs (Active/Completed)
-//   // 3. Inbox (Customer messages)
-//   // 4. Profile & Settings
-
-//   // 👨‍🔧 PROVIDER SCREENS WITH PROPER BLOC PROVIDERS:
-//   // 🎯 FIXED: Simplified to just the screens. Providers are now in routes.dart!
-//   final List<Widget> _screens = const [
-//     HomeDashboardScreen(),
-//     BookingDashboardScreen(),
-//     ChatRoomDashboardScreen(),
-//     ProfileDashboardScreen(),
-//   ];
+//   // 🎯 PUBLIC METHOD: Allows the Notification Screen to safely command a tab switch
+//   void navigateToTab(int mainIndex, {int innerIndex = 0}) {
+//     if (mounted) {
+//       setState(() {
+//         _currentTab = mainIndex;
+//         if (mainIndex == 1) {
+//           _bookingInnerTab = innerIndex;
+//         }
+//       });
+//     }
+//   }
 
 //   @override
 //   void initState() {
@@ -54,7 +57,6 @@
 //     if (authState is AuthAuthenticated) {
 //       _initLiveNotifications(authState);
 
-//       // 🛡️ Safely initialize FCM (Make sure Firebase.initializeApp() runs in main.dart first!)
 //       try {
 //         sl<PushNotificationService>().initialize();
 //       } catch (e) {
@@ -81,9 +83,6 @@
 
 //   @override
 //   void dispose() {
-//     // 🎯 We intentionally DO NOT disconnect the Notifications WS here.
-//     // This allows background notifications (like Chat SnackBar popups)
-//     // to continue working even when navigating deep into the app!
 //     super.dispose();
 //   }
 
@@ -132,15 +131,38 @@
 //                 constraints: const BoxConstraints(
 //                   maxWidth: AppDimensions.maxDashboardWidth,
 //                 ),
-//                 child: IndexedStack(index: _currentTab, children: _screens),
+//                 // 🎯 DYNAMIC BUILD: We build the screens directly here so they safely
+//                 // receive their Cubits, and instantly react when _bookingInnerTab changes!
+//                 child: IndexedStack(
+//                   index: _currentTab,
+//                   children: [
+//                     HomeDashboardScreen(
+//                       onSwitchTab: (index) => navigateToTab(index),
+//                     ),
+
+//                     // 🚀 Provides the missing History Cubit directly to the tab!
+//                     BlocProvider<BookingHistoryCubit>(
+//                       create: (_) => sl<BookingHistoryCubit>(),
+//                       child: BookingDashboardScreen(
+//                         // ValueKey forces a fresh rebuild if the notification tells us to switch inner tabs
+//                         key: ValueKey('booking_tab_$_bookingInnerTab'),
+//                         initialTabIndex: _bookingInnerTab,
+//                       ),
+//                     ),
+
+//                     // 🚀 Provides the missing Chat Cubit directly to the tab!
+//                     BlocProvider<ChatCubit>(
+//                       create: (_) => sl<ChatCubit>(),
+//                       child: const ChatRoomDashboardScreen(),
+//                     ),
+
+//                     const ProfileDashboardScreen(),
+//                   ],
+//                 ),
 //               ),
 //             );
 //           },
 //         ),
-
-//         // 🚫 REMOVED: FloatingActionButton. Providers do not request services.
-//         // If a Provider needs a FAB, it would be for "Toggle Online/Offline Status",
-//         // which is usually better placed in the AppBar of the Home screen.
 //         bottomNavigationBar: BottomAppBar(
 //           shape: const CircularNotchedRectangle(),
 //           clipBehavior: Clip.antiAlias,
@@ -165,29 +187,28 @@
 //                     activeIcon: Icons.dashboard_rounded,
 //                     label: 'Dashboard',
 //                     isSelected: _currentTab == 0,
-//                     onTap: () => setState(() => _currentTab = 0),
+//                     onTap: () => navigateToTab(0),
 //                   ),
 //                   NavigationTabItem(
 //                     icon: Icons.work_outline_rounded,
 //                     activeIcon: Icons.work_rounded,
 //                     label: 'My Jobs',
 //                     isSelected: _currentTab == 1,
-//                     onTap: () => setState(() => _currentTab = 1),
+//                     onTap: () => navigateToTab(1),
 //                   ),
 //                   NavigationTabItem(
 //                     icon: Icons.chat_bubble_outline_rounded,
 //                     activeIcon: Icons.chat_bubble_rounded,
 //                     label: 'Inbox',
 //                     isSelected: _currentTab == 2,
-//                     // 🎯 FIXED: Added the missing `= 2`
-//                     onTap: () => setState(() => _currentTab = 2),
+//                     onTap: () => navigateToTab(2),
 //                   ),
 //                   NavigationTabItem(
 //                     icon: Icons.person_outline_rounded,
 //                     activeIcon: Icons.person_rounded,
 //                     label: 'Profile',
 //                     isSelected: _currentTab == 3,
-//                     onTap: () => setState(() => _currentTab = 3),
+//                     onTap: () => navigateToTab(3),
 //                   ),
 //                 ],
 //               ),
@@ -198,6 +219,7 @@
 //     );
 //   }
 // }
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -214,6 +236,10 @@ import '../../../booking/presentation/screens/bookings_dashboard_screen.dart';
 import '../../../chat/presentation/cubits/chat_cubit.dart';
 import '../../../chat/presentation/screens/chat_room_dashboard_screen.dart';
 import '../../../home/screens/home_dashboard_screen.dart';
+
+// 🛡️ ADDED: Import the KYC Cubit so we can inject it into the Home Dashboard
+import '../../../kyc/presentation/cubits/provider_kyc_cubit.dart';
+
 import '../../../notification/presentation/cubits/notification/notifications_cubit.dart';
 import '../../../profile/presentation/screens/profile_dashboard_screen.dart';
 import '../widgets/navigation_tab_item.dart';
@@ -236,7 +262,8 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
   bool _isWebSocketInitialized = false;
   late NotificationsCubit _notificationsCubit;
 
-  // 🎯 PUBLIC METHOD: Allows the Notification Screen to safely command a tab switch
+  // 🎯 PUBLIC METHOD: Allows the Notification Screen to safely command a tab switch.
+  // This is how we achieve seamless cross-tab deep linking.
   void navigateToTab(int mainIndex, {int innerIndex = 0}) {
     if (mounted) {
       setState(() {
@@ -283,6 +310,8 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
 
   @override
   void dispose() {
+    // We do NOT disconnect websockets here so background messages
+    // continue to flow even if this specific widget unmounts temporarily.
     super.dispose();
   }
 
@@ -290,6 +319,7 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
+        // 1️⃣ Re-initialize sockets if Auth State changes securely
         BlocListener<AuthCubit, AuthState>(
           listenWhen: (previous, current) =>
               current is AuthAuthenticated &&
@@ -304,6 +334,7 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
             }
           },
         ),
+        // 2️⃣ Kill sockets instantly on logout for maximum security
         BlocListener<AuthCubit, AuthState>(
           listenWhen: (previous, current) => current is AuthUnauthenticated,
           listener: (context, state) {
@@ -322,6 +353,7 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
         backgroundColor: context.colorScheme.surface,
         body: BlocBuilder<AuthCubit, AuthState>(
           builder: (context, authState) {
+            // Guard clause prevents child errors if token evicts suddenly
             if (authState is! AuthAuthenticated) {
               return const Center(child: CircularProgressIndicator.adaptive());
             }
@@ -331,16 +363,24 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
                 constraints: const BoxConstraints(
                   maxWidth: AppDimensions.maxDashboardWidth,
                 ),
-                // 🎯 DYNAMIC BUILD: We build the screens directly here so they safely
-                // receive their Cubits, and instantly react when _bookingInnerTab changes!
+                // 🎯 ARCHITECTURE NOTE: The IndexedStack preserves state for all tabs.
+                // By injecting the Cubits *here* instead of globally, we keep memory
+                // clean but allow the tabs to maintain their scrolled positions and data.
                 child: IndexedStack(
                   index: _currentTab,
                   children: [
-                    HomeDashboardScreen(
-                      onSwitchTab: (index) => navigateToTab(index),
+                    // 🚀 TAB 0: HOME DASHBOARD
+                    // THE FIX: We inject ProviderKycCubit here so the Dashboard's "Decision Engine"
+                    // can fetch the live API status and dynamically hide the Red Warning Banners!
+                    BlocProvider<ProviderKycCubit>(
+                      create: (_) => sl<ProviderKycCubit>(),
+                      child: HomeDashboardScreen(
+                        onSwitchTab: (index) => navigateToTab(index),
+                      ),
                     ),
 
-                    // 🚀 Provides the missing History Cubit directly to the tab!
+                    // 🚀 TAB 1: BOOKING HISTORY
+                    // Provides the missing History Cubit directly to the tab!
                     BlocProvider<BookingHistoryCubit>(
                       create: (_) => sl<BookingHistoryCubit>(),
                       child: BookingDashboardScreen(
@@ -350,12 +390,16 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
                       ),
                     ),
 
-                    // 🚀 Provides the missing Chat Cubit directly to the tab!
+                    // 🚀 TAB 2: CHAT ROOM
+                    // Provides the missing Chat Cubit directly to the tab!
                     BlocProvider<ChatCubit>(
                       create: (_) => sl<ChatCubit>(),
                       child: const ChatRoomDashboardScreen(),
                     ),
 
+                    // 🚀 TAB 3: PROFILE
+                    // Profile provides its own localized auxiliary cubits (like KYC and Reviews)
+                    // inside its own file via MultiBlocProvider.
                     const ProfileDashboardScreen(),
                   ],
                 ),

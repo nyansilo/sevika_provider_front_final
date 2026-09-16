@@ -5,11 +5,14 @@ import '../../../../core/extensions/build_context_extensions.dart';
 
 class StatusToggleBanner extends StatelessWidget {
   final bool isOnline;
+  final bool isLoading; // 🚀 ADDED: Loading state flag
   final ValueChanged<bool> onToggle;
 
   const StatusToggleBanner({
     super.key,
     required this.isOnline,
+    this.isLoading =
+        false, // 🎯 Default to false so it doesn't break other screens
     required this.onToggle,
   });
 
@@ -43,16 +46,22 @@ class StatusToggleBanner extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    isOnline ? 'You are Online' : 'You are Offline',
+                    // 🚀 DYNAMIC TEXT: Show loading context if processing
+                    isLoading
+                        ? 'Updating status...'
+                        : (isOnline ? 'You are Online' : 'You are Offline'),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: context.colorScheme.onSurface,
                     ),
                   ),
                   Text(
-                    isOnline
-                        ? 'Receiving job requests nearby'
-                        : 'Toggle on to start receiving jobs',
+                    // 🚀 DYNAMIC SUBTITLE
+                    isLoading
+                        ? 'Please wait a moment'
+                        : (isOnline
+                              ? 'Receiving job requests nearby'
+                              : 'Toggle on to start receiving jobs'),
                     style: TextStyle(
                       fontSize: AppDimensions.fontSizeCaption,
                       color: context.colorScheme.onSurfaceVariant,
@@ -62,11 +71,26 @@ class StatusToggleBanner extends StatelessWidget {
               ),
             ],
           ),
-          Switch.adaptive(
-            value: isOnline,
-            activeColor: Colors.green,
-            onChanged: onToggle,
-          ),
+
+          // 🚀 THE FIX: Swap the switch for a spinner while loading to prevent spam-taps
+          isLoading
+              ? const Padding(
+                  padding: EdgeInsets.only(right: 12.0, left: 8.0),
+                  child: SizedBox(
+                    height: 24,
+                    width: 24,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2.5,
+                      color: Colors.green,
+                    ),
+                  ),
+                )
+              : Switch.adaptive(
+                  value: isOnline,
+                  activeColor: Colors.green,
+                  // Disable the native switch entirely if loading (Defense in depth)
+                  onChanged: isLoading ? null : onToggle,
+                ),
         ],
       ),
     );

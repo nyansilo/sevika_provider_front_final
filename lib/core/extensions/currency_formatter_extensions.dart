@@ -29,6 +29,11 @@ extension CurrencyExtensions on num? {
     return formatter.format(this).replaceAll(RegExp(r'\s+'), ' ').trim();
   }
 
+  String toHoursDisplay({int decimalPlaces = 1}) {
+    if (this == null) return '0.0h';
+    return '${this!.toStringAsFixed(decimalPlaces)}h';
+  }
+
   /// Converts a number to standard financial decimal format: "2,500.00"
   String toFinancialDisplay() {
     if (this == null) return '0.00';

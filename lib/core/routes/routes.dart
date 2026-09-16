@@ -305,24 +305,47 @@
 //     // =========================================================================
 //     // 🛡️ TRUST & SAFETY (KYC)
 //     // =========================================================================
-//     RouteList.kycDashboardPage: (context) => BlocProvider<ProviderKycCubit>(
-//       // fetch immediately when dashboard opens
-//       create: (_) => sl<ProviderKycCubit>()..fetchKycStatus(),
-//       child: const KycDashboardScreen(),
-//     ),
+//     RouteList.kycDashboardPage: (context) {
+//       // 🚀 DEFENSIVE ROUTING: Checks if the Dashboard was launched with an existing Cubit argument.
+//       // (Like when called from the Profile Dashboard menu to save API calls)
+//       final existingCubit = setting.arguments as ProviderKycCubit?;
+//       return existingCubit != null
+//           ? BlocProvider<ProviderKycCubit>.value(
+//               value: existingCubit,
+//               child: const KycDashboardScreen(),
+//             )
+//           : BlocProvider<ProviderKycCubit>(
+//               create: (_) => sl<ProviderKycCubit>()..fetchKycStatus(),
+//               child: const KycDashboardScreen(),
+//             );
+//     },
 
-//     RouteList.submitBasicKycPage: (context) =>
-//         BlocProvider<ProviderKycCubit>.value(
-//           // Retrieve the existing cubit instance passed via arguments to maintain state
-//           value: setting.arguments as ProviderKycCubit,
-//           child: const SubmitBasicKycScreen(),
-//         ),
+//     RouteList.submitBasicKycPage: (context) {
+//       // 🚀 DEFENSIVE ROUTING: Safely handles Deep Links or Push Notifications!
+//       final existingCubit = setting.arguments as ProviderKycCubit?;
+//       return existingCubit != null
+//           ? BlocProvider<ProviderKycCubit>.value(
+//               value: existingCubit,
+//               child: const SubmitBasicKycScreen(),
+//             )
+//           : BlocProvider<ProviderKycCubit>(
+//               create: (_) => sl<ProviderKycCubit>()..fetchKycStatus(),
+//               child: const SubmitBasicKycScreen(),
+//             );
+//     },
 
-//     RouteList.submitProKycPage: (context) =>
-//         BlocProvider<ProviderKycCubit>.value(
-//           value: setting.arguments as ProviderKycCubit,
-//           child: const SubmitProKycScreen(),
-//         ),
+//     RouteList.submitProKycPage: (context) {
+//       final existingCubit = setting.arguments as ProviderKycCubit?;
+//       return existingCubit != null
+//           ? BlocProvider<ProviderKycCubit>.value(
+//               value: existingCubit,
+//               child: const SubmitProKycScreen(),
+//             )
+//           : BlocProvider<ProviderKycCubit>(
+//               create: (_) => sl<ProviderKycCubit>()..fetchKycStatus(),
+//               child: const SubmitProKycScreen(),
+//             );
+//     },
 
 //     // =========================================================================
 //     // ⚙️ SETTINGS, NOTIFICATIONS & SUPPORT
@@ -420,6 +443,7 @@ import '../../features/auth/presentation/screens/welcome_screen.dart';
 // =============================================================================
 import '../../features/main_layout/presentation/screens/main_layout_screen.dart';
 import '../../features/profile/presentation/cubits/profile/profile_cubit.dart';
+import '../../features/profile/presentation/cubits/status/provider_status_cubit.dart'; // 🚀 ADDED
 
 // =============================================================================
 // CORE BOOKING PIPELINE (Assigned Jobs)
@@ -464,6 +488,7 @@ import '../../features/earnings/presentation/screens/earnings_dashboard_screen.d
 // CHAT & NOTIFICATIONS
 // =============================================================================
 import '../../features/chat/presentation/cubits/chat_cubit.dart';
+import '../../features/notification/presentation/cubits/notification/notifications_cubit.dart'; // 🚀 ADDED
 import '../../features/notification/presentation/screens/notification_screen.dart';
 
 // =============================================================================
@@ -527,6 +552,23 @@ class Routes {
           create: (_) => sl<ChatCubit>()..loadChatRooms(),
         ),
         BlocProvider<WalletCubit>(create: (_) => sl<WalletCubit>()),
+
+        // 🚀 NEW: Required by HomeDashboardScreen to function correctly inside the layout!
+        BlocProvider<ProviderStatusCubit>(
+          create: (_) => sl<ProviderStatusCubit>(),
+        ),
+        BlocProvider<ProviderKycCubit>(create: (_) => sl<ProviderKycCubit>()),
+        BlocProvider<EarningsCubit>(create: (_) => sl<EarningsCubit>()),
+        BlocProvider<NotificationsCubit>(
+          create: (_) => sl<NotificationsCubit>(),
+        ),
+
+        // 🚀 THE FIX: Added ProviderReviewsCubit so the Home Dashboard can calculate the dynamic rating!
+        BlocProvider<ProviderReviewsCubit>(
+          create: (_) => sl<ProviderReviewsCubit>(),
+        ),
+
+        BlocProvider<AnalyticsCubit>(create: (_) => sl<AnalyticsCubit>()),
       ],
       child: MainLayoutScreen(),
     ),

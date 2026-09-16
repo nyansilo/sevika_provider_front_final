@@ -32,4 +32,18 @@ class ProfileRepositoryImpl implements ProfileRepository {
       return Left(await ErrorHandler.handle(e));
     }
   }
+
+  @override
+  Future<Either<AppError, bool>> toggleAvailability({
+    required bool isOnline,
+  }) async {
+    try {
+      final result = await remoteDataSource.toggleAvailability(
+        isOnline: isOnline,
+      );
+      return Right(result);
+    } catch (e) {
+      return Left(await ErrorHandler.handle(e));
+    }
+  }
 }

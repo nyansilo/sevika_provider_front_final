@@ -9,4 +9,7 @@ abstract class ProfileRepository {
   Future<Either<AppError, UserProfileEntity>> updateProfile(
     UpdateProfileParams params,
   );
+
+  // 🚀 ADDED: Contract for toggling provider availability status
+  Future<Either<AppError, bool>> toggleAvailability({required bool isOnline});
 }

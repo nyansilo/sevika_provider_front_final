@@ -636,6 +636,7 @@ class AuthCubit extends Cubit<AuthState> {
         profileImage: entity.user.profileImage,
         pushNotificationsEnabled: entity.user.pushNotificationsEnabled,
         kycStatus: entity.user.kycStatus, // 🎯 Safely store current values
+        isOnline: entity.user.isOnline,
         kycTier: entity.user.kycTier,
         isKycApproved: entity.user.isKycApproved,
       );

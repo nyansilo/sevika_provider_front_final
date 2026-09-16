@@ -13,6 +13,10 @@ class ProviderAnalyticsEntity extends Equatable {
   final int totalReviews;
   final double responseRate;
   final double onTimeArrival;
+
+  // 🚀 ADDED: Engagement Tracking
+  final double hoursOnline;
+
   final ProviderAnalyticsTrendsEntity trends;
 
   const ProviderAnalyticsEntity({
@@ -25,6 +29,7 @@ class ProviderAnalyticsEntity extends Equatable {
     required this.totalReviews,
     required this.responseRate,
     required this.onTimeArrival,
+    required this.hoursOnline,
     required this.trends,
   });
 
@@ -39,6 +44,7 @@ class ProviderAnalyticsEntity extends Equatable {
     totalReviews,
     responseRate,
     onTimeArrival,
+    hoursOnline,
     trends,
   ];
 }

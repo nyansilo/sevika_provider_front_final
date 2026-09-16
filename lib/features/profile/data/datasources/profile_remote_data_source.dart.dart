@@ -10,6 +10,7 @@ import '../models/user_profile_model.dart';
 abstract class ProfileRemoteDataSource {
   Future<UserProfileModel> fetchUserProfile();
   Future<UserProfileModel> updateUserProfile(UpdateProfileParams params);
+  Future<bool> toggleAvailability({required bool isOnline});
 }
 
 class ProfileRemoteDataSourceImpl extends BaseRemoteDataSource
@@ -65,5 +66,17 @@ class ProfileRemoteDataSourceImpl extends BaseRemoteDataSource
     );
 
     return UserProfileModel.fromJson(response.data as Map<String, dynamic>);
+  }
+
+  // 🚀 ADDED: Implementation for the Availability Engine
+  @override
+  Future<bool> toggleAvailability({required bool isOnline}) async {
+    final response = await dioClient.post(
+      '/provider/status', // Hardcoded here, or add to your ApiEndpoints class
+      data: {'isOnline': isOnline},
+    );
+
+    // Extracts the verified true/false value directly from Laravel's Resource response
+    return response.data['data']['isOnline'] as bool;
   }
 }

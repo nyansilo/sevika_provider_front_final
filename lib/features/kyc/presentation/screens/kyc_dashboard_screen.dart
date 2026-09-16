@@ -6,6 +6,7 @@ import '../../../../core/extensions/build_context_extensions.dart';
 import '../../../../core/global/presentation/widgets/sevika_state_placeholder.dart';
 import '../../../../core/routes/route_list.dart';
 
+import '../../domain/enums/kyc_status.dart'; // 🛡️ ADDED: To access KycStatus enum
 import '../../domain/enums/kyc_tier.dart';
 import '../cubits/provider_kyc_cubit.dart';
 import '../cubits/provider_kyc_state.dart';
@@ -72,7 +73,18 @@ class KycDashboardScreen extends StatelessWidget {
                   KycTierCardWidget(
                     title: 'Tier 2: Professional',
                     description: 'Unlocks custom bidding & high-value jobs. Requires Business License.',
-                    status: kyc.proUpgradeStatus,
+
+                    // 🛡️ DEFENSIVE UI PATCH:
+                    // If the backend API mistakenly sends proUpgradeStatus as "approved"
+                    // but the global tier is strictly "basic", we force the UI to "unsubmitted"
+                    // so the provider can actually click the card and upload their Pro documents!
+                    status:
+                        (kyc.kycTier == KycTier.basic &&
+                            kyc.proUpgradeStatus == KycStatus.approved)
+                        ? KycStatus
+                              .unsubmitted // *(Note: if your default enum is named .unverified or .none, change it here)*
+                        : kyc.proUpgradeStatus,
+
                     isLocked:
                         kyc.kycTier != KycTier.basic &&
                         kyc.kycTier != KycTier.professional,
